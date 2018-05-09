@@ -1,2 +1,1 @@
-# csc299
-
+This is unofficial repo for CSC299. Meant for easily copying files back and forth from laptop to desktop. 
