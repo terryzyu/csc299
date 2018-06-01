@@ -1,4 +1,4 @@
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.2;
 
 contract projectLottery{
     
@@ -7,19 +7,21 @@ contract projectLottery{
     address public owner; //Contract owner
     //address[5] public played; //Array to store all players
     uint256 public winningNumber; //Winning number to be determined
+    bool public hasSetWinningNumber;
     uint256 private fee;
     uint256 public pot; //Total amount in lottery
     uint private feePot;
     uint public numPlayed = 0; //Players so far
-    uint256 endTime;
+    uint endTime;
     uint256 startTime;
     bytes32 winningHash;
 
-    constructor(uint256 _time, uint256 _fee) public{
+    constructor(uint _time, uint256 _fee) public{
         owner = msg.sender;
         fee = _fee;
         //startTime = getTime();
-        endTime = getTime() + _time;
+        endTime = now + _time;
+        hasSetWinningNumber = false;
     }
 
    /* struct Player{
@@ -27,10 +29,7 @@ contract projectLottery{
         bytes32 hash;
     }*/
     
-    function showTimeLeft() public returns(uint256){
-        return (endTime - getTime()); //Doesn't seem to work at the moment
-        //okay it works now :^)
-    }
+    
     
 
     mapping(address => bytes32) public players;
@@ -44,6 +43,10 @@ contract projectLottery{
         require (
           players[msg.sender] == 0 //Cannot play twice
         );
+        
+        require(now <= endTime, "End time has been passed");
+        
+        
 
         players[msg.sender] = hash; //Similar to addPlayer()
         pot += msg.value-fee; //Pays fee to contract owner
@@ -52,30 +55,47 @@ contract projectLottery{
     }
     
     function setWinningNumber (uint256 _winning_number) external {
-        require(getTime() >= endTime, "End time hasn't been passed"); //Can only be called after ending
+        require(now >= endTime, "End time has not passed"); //Can only be called after ending
         require(msg.sender == owner); //Only contract owner can set winning number
         winningNumber = _winning_number;
+        hasSetWinningNumber = true;
         winningHash = sha256(_winning_number);
         
     }
 
-    function reveal (uint256 r) external returns(bytes32){
-        require(getTime() >= endTime); //Can only be called after ending
-        bytes32 h = sha256 (r);//Calculates sha256 of number sent in by player
-        return h;
-       /* require (players[msg.sender] == h);
-        if(h == winningHash){
-            winners[msg.sender] = h;
-        }*/
+    function reveal (uint256 r) external{
+        //PLAYERS CAN ONLY REVEAL ONCE
+        require(now >= endTime, "Time has not passed"); //Can only be called after ending
+        require(hasSetWinningNumber == true); //Winning number must've already been set
         
+        bytes32 h = sha256(abi.encodePacked (winningNumber, r));//Calculates sha256 of number sent in by player
+        //require (players[msg.sender] == h);
+        
+        //Gets added to mapping if a winner is confirmed
+        if(players[msg.sender] == h){
+            winners[msg.sender] = h;
+        }
+        
+        
+        delete players[msg.sender]; //Removes player from mapping
+        numPlayed--;
     }
 
     function done () external {
-        
+        require(numPlayed == 0);
     }
     
-    function getTime() returns(uint256){
+    
+    //All it returns is the current unix time
+    //I can literally just use "now" instead of this
+    function getTime() public returns(uint256){
         return now;
+    }
+    
+    function showEndTime() public returns(uint256){
+        return (endTime); //Doesn't seem to work at the moment
+        //okay it works now :^)
+        //doesn't work anymore :^(
     }
 
     /*Functions that work but are not needed. Testing purposes

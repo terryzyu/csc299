@@ -22,9 +22,9 @@ with open("playerInfo.txt") as file:
 		playerInfo[key] = int(val)
 
 number = playerInfo[account]
-
-transaction_hash = contract.call ({
-}).reveal (number);
+transaction_hash = contract.transact ({
+	"from": account
+}).reveal(number);
 
 print ("transaction hash = {:s}".format (transaction_hash))
 transaction_receipt = web3.eth.getTransactionReceipt (transaction_hash)
