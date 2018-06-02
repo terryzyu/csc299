@@ -12,7 +12,7 @@ with open ("abi.json") as f:
 
 contract_address = sys.argv[1]
 account_index = int (sys.argv[2])
-value = int (sys.argv[3]) #ether amount to send
+value = int (sys.argv[3]) #amount to send in wei
 chosenNumber = int(sys.argv[4])
 
 account = web3.eth.accounts[account_index]
@@ -27,7 +27,7 @@ hash_nr = hashlib.sha256 (data).hexdigest ()
 
 transaction_hash = contract.transact ({
     "from": account,
-    "value": web3.toWei (value, "ether")
+    "value": web3.toWei (value, "wei")
 }).play (Web3.toBytes (hexstr = hash_nr));
 
 print ("transaction hash = {:s}".format (transaction_hash))
