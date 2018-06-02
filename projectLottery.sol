@@ -89,19 +89,19 @@ contract projectLottery{
     } //setWinningNumber()
 
     function reveal (uint256 r) external{
-        require( //Can only be called after play time and within the reveal time
-            now >= endTime && now <= revealTime,
-            "Time has not passed"
+        require(
+             now <= revealTime,
+            "Reveal time has passed"
         );
-
+        
         //Winning number must've already been set
-        require(hasSetWinningNumber == true); 
+        assert(hasSetWinningNumber); 
 
         //Calculates hash of number sent in by player packed with winning number
         bytes32 h = sha256(abi.encodePacked (winningNumber, r));
         
-        // Must match hash sent during play
-        require (players[msg.sender] == h);
+        // Must match hash sent during play()
+        //assert (players[msg.sender] == h);
         
         //Gets added to winners map if confirmed winner
         if(players[msg.sender] == h){
@@ -115,19 +115,25 @@ contract projectLottery{
         require(now >= revealTime);
         require(msg.sender == owner);
 
-        if(numWinners > 0){
-            uint256 winnings = pot / numWinners;
-            for(uint x = 0; x < numWinners; x++)
-                winners[x].transfer(winnings);
-        }
-        else{
-            uint256 refund = pot / numPlayed;
+        if(numWinners < 0){ //Refunds
+            //uint256 refund = pot / numPlayed;
             for(uint y = 0; y < numPlayed; y++)
-                playerLookUp[y].transfer(refund);
+                playerLookUp[y].transfer(pot/numPlayed);
+                
+        }
+        else{//A winner exists
+            for(uint x = 0; x < numWinners; x++)
+                winners[x].transfer(pot/numWinners);
         }
 
         owner.transfer(feePot);
         selfdestruct(owner); //If there's any remaining money. 
     } //done()
+    
+    
+    function getTime() public view returns(uint256){
+        return now;
+    }
+    
 
 } //projectLottery.sol

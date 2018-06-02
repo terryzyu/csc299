@@ -1,73 +1,45 @@
 [
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [],
-		"name": "done",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
+		"name": "time",
+		"outputs": [
 			{
-				"name": "hash",
-				"type": "bytes32"
-			}
-		],
-		"name": "play",
-		"outputs": [],
-		"payable": true,
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "r",
-				"type": "uint256"
-			}
-		],
-		"name": "reveal",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "_winning_number",
-				"type": "uint256"
-			}
-		],
-		"name": "setWinningNumber",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"name": "_time",
-				"type": "uint256"
-			},
-			{
-				"name": "_ticketCost",
-				"type": "uint256"
-			},
-			{
-				"name": "_fee",
+				"name": "",
 				"type": "uint256"
 			}
 		],
 		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "ticketCost",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "numPlayed",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
 	},
 	{
 		"constant": true,
@@ -86,11 +58,11 @@
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "hasSetWinningNumber",
+		"name": "winningNumber",
 		"outputs": [
 			{
 				"name": "",
-				"type": "bool"
+				"type": "uint256"
 			}
 		],
 		"payable": false,
@@ -100,11 +72,44 @@
 	{
 		"constant": true,
 		"inputs": [],
-		"name": "numPlayed",
+		"name": "pot",
 		"outputs": [
 			{
 				"name": "",
 				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getTime",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "playerLookUp",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
 			}
 		],
 		"payable": false,
@@ -147,7 +152,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "playerLookUp",
+		"name": "winners",
 		"outputs": [
 			{
 				"name": "",
@@ -156,6 +161,85 @@
 		],
 		"payable": false,
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_winning_number",
+				"type": "uint256"
+			}
+		],
+		"name": "setWinningNumber",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "done",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "hasSetWinningNumber",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "revealTime",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "r",
+				"type": "uint256"
+			}
+		],
+		"name": "reveal",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "hash",
+				"type": "bytes32"
+			}
+		],
+		"name": "play",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -178,92 +262,22 @@
 		"type": "function"
 	},
 	{
-		"constant": true,
-		"inputs": [],
-		"name": "pot",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "revealTime",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "ticketCost",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "time",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
 		"inputs": [
 			{
-				"name": "",
+				"name": "_time",
 				"type": "uint256"
-			}
-		],
-		"name": "winners",
-		"outputs": [
+			},
 			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "winningNumber",
-		"outputs": [
+				"name": "_ticketCost",
+				"type": "uint256"
+			},
 			{
-				"name": "",
+				"name": "_fee",
 				"type": "uint256"
 			}
 		],
 		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
+		"stateMutability": "nonpayable",
+		"type": "constructor"
 	}
 ]
