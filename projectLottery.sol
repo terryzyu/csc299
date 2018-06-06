@@ -44,7 +44,7 @@ contract projectLottery{
         fee = _fee;
         endTime = now + _time;
         hasSetWinningNumber = false;
-    }
+    } //constructor()
 
     mapping(address => bytes32) public players;     //Stores valid players and their addresses
     mapping(uint256 => address) public playerLookUp; // Stores valid players as a look up table
@@ -100,9 +100,6 @@ contract projectLottery{
         //Calculates hash of number sent in by player packed with winning number
         bytes32 h = sha256(abi.encodePacked (winningNumber, r));
         
-        // Must match hash sent during play()
-        //assert (players[msg.sender] == h);
-        
         //Gets added to winners map if confirmed winner
         if(players[msg.sender] == h){
             winners[numWinners] = msg.sender;
@@ -116,7 +113,6 @@ contract projectLottery{
         require(msg.sender == owner);
 
         if(numWinners < 0){ //Refunds
-            //uint256 refund = pot / numPlayed;
             for(uint y = 0; y < numPlayed; y++)
                 playerLookUp[y].transfer(pot/numPlayed);
                 
@@ -128,6 +124,7 @@ contract projectLottery{
 
         owner.transfer(feePot);
         selfdestruct(owner); //If there's any remaining money. 
+        
     } //done()
     
     
