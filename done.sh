@@ -1,1 +1,0 @@
-python3 done-lottery.py 0x97f8290ff258459a34cf09b9f2731ef5d0a0ede8 0

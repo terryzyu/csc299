@@ -1,2 +1,0 @@
-Usage: time (seconds), ticket cost in wei, fee in wei
-10,599999000000000,300000
