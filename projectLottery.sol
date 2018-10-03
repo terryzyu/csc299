@@ -3,6 +3,7 @@ pragma solidity ^0.4.2;
 contract projectLottery{
     /**
      * Purpose: Create a blind lottery where a player sends in a hash of their chosen number mixed with a random number
+     * 
      * When the contract is created the owner sets the following:
      * A play time in seconds, a ticket cost in wei, and the fee in wei that will be deducted from ticket cost for running the contract
      *
@@ -12,14 +13,23 @@ contract projectLottery{
      *
      * When the play time has passed the owner can set a winning number and the reveal time is set.
      * The reveal time is equal to play time, this is when players send in their random number to be hashed
-     * Reveal time's purpose is so the owner cannot immediately call done() without giving players a fair chance to reveal their numbers
+     * Reveal time's purpose is so the owner cannot immediately call done without giving players a fair chance to reveal their numbers
      * Players can reveal using 'reveal-lottery.py'
      * Usage: python3 reveal-lottery.py <contract address> <account index>
      *
-     * The owner can call done() when all have revealed or reveal time has passed
+     * The owner can call done-lottery.py (henceforth as done()) when all have revealed or reveal time has passed
      * done() will split the winnings if necessary and distribute them to winners. Fee pot will be sent to owner
      * If there are no winners then players are refunded minus the fee.
      * Contract will self destruct after done() is called
+     * 
+     * I've provided some automation for testing. All files must be in same directory
+     * ./play.sh will play the lottery with 3 accounts, with pre-selected numbers: 32, 44, 48 for respective index number
+     * ./reveal.sh will send in the random numbers to be hashed
+     * ./done.sh will call done()
+     * 
+     * ./play3Winners.sh plays the lottery with 20 accounts, pre-selected numbers, winning number is 32 for 3 winners
+     * ./reveal3Winners.sh performs same as above
+     * ./done.sh performs same as above
      * 
      */
     
@@ -44,7 +54,7 @@ contract projectLottery{
         fee = _fee;
         endTime = now + _time;
         hasSetWinningNumber = false;
-    } //constructor()
+    }
 
     mapping(address => bytes32) public players;     //Stores valid players and their addresses
     mapping(uint256 => address) public playerLookUp; // Stores valid players as a look up table
@@ -99,8 +109,8 @@ contract projectLottery{
 
         //Calculates hash of number sent in by player packed with winning number
         bytes32 h = sha256(abi.encodePacked (winningNumber, r));
-        
-        //Gets added to winners map if confirmed winner
+      
+      //Gets added to winners map if confirmed winner
         if(players[msg.sender] == h){
             winners[numWinners] = msg.sender;
             numWinners++;
@@ -112,7 +122,7 @@ contract projectLottery{
         require(now >= revealTime);
         require(msg.sender == owner);
 
-        if(numWinners < 0){ //Refunds
+        if(numWinners <= 0){ //Refunds
             for(uint y = 0; y < numPlayed; y++)
                 playerLookUp[y].transfer(pot/numPlayed);
                 
@@ -124,7 +134,6 @@ contract projectLottery{
 
         owner.transfer(feePot);
         selfdestruct(owner); //If there's any remaining money. 
-        
     } //done()
     
     

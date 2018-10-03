@@ -13,7 +13,7 @@ with open ("abi.json") as f:
 contract_address = sys.argv[1]
 account_index = int (sys.argv[2])
 value = int (sys.argv[3]) #amount to send in wei
-chosenNumber = int(sys.argv[4])
+chosenNumber = int(sys.argv[4]) #Player selected number
 
 account = web3.eth.accounts[account_index]
 print ("Using account {:d} with address {:s} to play on contract {:s}".format (account_index, account, contract_address))
