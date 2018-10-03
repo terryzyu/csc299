@@ -1,1 +1,1 @@
-This is unofficial repo for CSC299. Meant for easily copying files back and forth from laptop to desktop. 
+This is the local repo for CSC299, Blockchains and Smart Contracts, at DePaul University. 
